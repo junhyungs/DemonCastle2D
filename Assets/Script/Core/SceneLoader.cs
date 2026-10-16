@@ -15,7 +15,7 @@ namespace DemonCastle.Core
             if (isSceneNameNullOrEmpty) throw new ArgumentException("SceneName IsNullOrEmpty", nameof(sceneName));
 
             var canLoad = Application.CanStreamedLevelBeLoaded(sceneName);
-            if (!canLoad) throw new InvalidOperationException("This scene name is not unregistered");
+            if (!canLoad) throw new InvalidOperationException($"This scene name is not registered[{sceneName}]");
 
             token.ThrowIfCancellationRequested();
             AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
