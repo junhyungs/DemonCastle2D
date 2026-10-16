@@ -1,22 +1,29 @@
 using UnityEngine;
 using System;
+using DemonCastle.Hub;
 
 namespace DemonCastle.Core
 {
     public class GameRoot : MonoBehaviour
     {
-        private SceneLoader _sceneLoader;
+        private GameServices _services;
 
         private async Awaitable Start()
         {
             DontDestroyOnLoad(gameObject);
 
-            _sceneLoader = new SceneLoader();
+            _services = new GameServices(new SceneLoader());
 
             try
             {
-                await _sceneLoader.LoadAsync(SceneNames.Hub, destroyCancellationToken);                
-                Debug.Log($"[GameRoot] {_sceneLoader.CurrentScene} 로드완료");
+                var sceneLoader = _services.SceneLoader;
+                await sceneLoader.LoadAsync(SceneNames.Hub, destroyCancellationToken);
+
+                Debug.Log($"[GameRoot] {sceneLoader.CurrentScene} 로드완료");
+
+                HubEntry hubEntry = FindAnyObjectByType<HubEntry>();
+                if (hubEntry == null) throw new InvalidOperationException($"{SceneNames.Hub} 씬에 HubEntry가 없습니다.");
+                hubEntry.Initialize(_services);
             }
             catch (OperationCanceledException)
             {
