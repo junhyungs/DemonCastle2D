@@ -1,6 +1,8 @@
 using UnityEngine;
 using System;
 using DemonCastle.Hub;
+using System.IO;
+using DemonCastle.Save;
 
 namespace DemonCastle.Core
 {
@@ -12,10 +14,17 @@ namespace DemonCastle.Core
         {
             DontDestroyOnLoad(gameObject);
 
-            _services = new GameServices(new SceneLoader());
+            string savePath = Path.Combine(Application.persistentDataPath, "save.json");
+            _services = new GameServices(new SceneLoader(), new SaveService(savePath));
 
             try
             {
+                var saveService = _services.SaveService;
+                SaveData data = saveService.Load();
+                data.ReturnCount++;
+                saveService.Save(data);
+                Debug.Log($"[GameRoot] 귀환 횟수 : {data.ReturnCount}, 저장 위치 : {savePath}");
+
                 var sceneLoader = _services.SceneLoader;
                 await sceneLoader.LoadAsync(SceneNames.Hub, destroyCancellationToken);
 

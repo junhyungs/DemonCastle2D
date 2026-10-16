@@ -1,14 +1,17 @@
 using System;
+using DemonCastle.Save;
 
 namespace DemonCastle.Core
 {
     public class GameServices
     {
         public SceneLoader SceneLoader { get; }
+        public SaveService SaveService { get; }
 
-        public GameServices(SceneLoader loader)
+        public GameServices(SceneLoader loader, SaveService saveService)
         {
             SceneLoader = loader ?? throw new ArgumentNullException(nameof(loader));
+            SaveService = saveService ?? throw new ArgumentNullException(nameof(saveService));
         }
     }
 }

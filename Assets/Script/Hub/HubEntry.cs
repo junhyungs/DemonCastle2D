@@ -11,7 +11,7 @@ namespace DemonCastle.Hub
 
         public void Initialize(GameServices services)
         {
-            if (services == null) throw new ArgumentNullException($"[HubEntry]{nameof(services)}가 전달되지않았습니다.");
+            if (services == null) throw new ArgumentNullException(nameof(services));
             if (_exitDoor == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_exitDoor)}");
 
             _services = services;
