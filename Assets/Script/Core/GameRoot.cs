@@ -20,10 +20,8 @@ namespace DemonCastle.Core
             try
             {
                 var saveService = _services.SaveService;
-                SaveData data = saveService.Load();
-                data.ReturnCount++;
-                saveService.Save(data);
-                Debug.Log($"[GameRoot] 귀환 횟수 : {data.ReturnCount}, 저장 위치 : {savePath}");
+                SaveData data = saveService.Load();                
+                Debug.Log($"[GameRoot] 세이브 불러옴, 귀환 횟수 : {data.ReturnCount}");
 
                 var sceneLoader = _services.SceneLoader;
                 await sceneLoader.LoadAsync(SceneNames.Hub, destroyCancellationToken);
