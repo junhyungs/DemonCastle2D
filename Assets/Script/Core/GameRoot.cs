@@ -2,19 +2,25 @@ using UnityEngine;
 using System;
 using System.IO;
 using DemonCastle.Save;
+using DemonCastle.Controls;
 
 namespace DemonCastle.Core
 {
     public class GameRoot : MonoBehaviour
     {
         private GameServices _services;
+        private GameControls _controls;
 
         private async Awaitable Start()
         {
             DontDestroyOnLoad(gameObject);
 
             string savePath = Path.Combine(Application.persistentDataPath, "save.json");
-            _services = new GameServices(new SceneLoader(), new SaveService(savePath));
+
+            _controls = new GameControls();
+            _controls.Player.Enable();
+
+            _services = new GameServices(new SceneLoader(), new SaveService(savePath), _controls);
 
             try
             {
@@ -38,7 +44,12 @@ namespace DemonCastle.Core
             {
                 Debug.LogException(e);
             }
-        }        
+        }
+
+        private void OnDestroy()
+        {
+            _controls?.Dispose();
+        }
     }
 }
 
