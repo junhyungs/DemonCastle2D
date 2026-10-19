@@ -4,7 +4,7 @@ using System;
 
 namespace DemonCastle.Hub
 {
-    public class HubEntry : MonoBehaviour
+    public class HubEntry : MonoBehaviour, ISceneEntry
     {
         [SerializeField] private HubExitDoor _exitDoor;
         private GameServices _services;

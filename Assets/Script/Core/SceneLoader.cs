@@ -26,6 +26,18 @@ namespace DemonCastle.Core
 
             CurrentScene = sceneName;
         }
+
+        public ISceneEntry FindEntry(string sceneName)
+        {
+            Scene scene = SceneManager.GetSceneByName(sceneName);
+            if (!scene.isLoaded) throw new InvalidOperationException($"'{sceneName}' 씬이 로드되어 있지 않습니다.");
+
+            foreach(var root in scene.GetRootGameObjects())
+            {
+                if (root.TryGetComponent(out ISceneEntry entry)) return entry;
+            }
+            throw new InvalidOperationException($"'{sceneName}' 씬의 최상위 오브젝트에 ISceneEntry가 없습니다.");
+        }
     }
 }
 

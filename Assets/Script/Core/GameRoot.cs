@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using DemonCastle.Hub;
 using System.IO;
 using DemonCastle.Save;
 
@@ -28,9 +27,8 @@ namespace DemonCastle.Core
 
                 Debug.Log($"[GameRoot] {sceneLoader.CurrentScene} 로드완료");
 
-                HubEntry hubEntry = FindAnyObjectByType<HubEntry>();
-                if (hubEntry == null) throw new InvalidOperationException($"{SceneNames.Hub} 씬에 HubEntry가 없습니다.");
-                hubEntry.Initialize(_services);
+                var entry = sceneLoader.FindEntry(SceneNames.Hub);
+                entry.Initialize(_services);
             }
             catch (OperationCanceledException)
             {
