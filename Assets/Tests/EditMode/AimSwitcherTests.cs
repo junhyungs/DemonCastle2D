@@ -18,7 +18,7 @@ namespace DemonCastle.Tests
         }
 
         [Test]
-        public async Task 생성자_처음에는_첫번째입력()
+        public void 생성자_처음에는_첫번째입력()
         {
             var first = new FakeAim();
             var second = new FakeAim { Direction = Vector2.up };
@@ -77,7 +77,7 @@ namespace DemonCastle.Tests
         }
 
         [Test]
-        public void Tick_둘다건드리면() //"같은 프레임에 둘 다 건드리면 배열에서 뒤쪽이 우선한다."
+        public void Tick_둘다건드리면_뒤쪽입력우선() //"같은 프레임에 둘 다 건드리면 배열에서 뒤쪽이 우선한다."
         {
             var first = new FakeAim();
             var second = new FakeAim { Direction = Vector2.up };
