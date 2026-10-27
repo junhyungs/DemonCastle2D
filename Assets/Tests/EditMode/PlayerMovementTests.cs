@@ -1,8 +1,6 @@
 using DemonCastle.Player;
 using NUnit.Framework;
-using System;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace DemonCastle.Tests
 {
@@ -37,22 +35,9 @@ namespace DemonCastle.Tests
             Assert.AreEqual(1.5f, velocity.magnitude, 0.0001f);
         }
 
-        [Test]
-        public void 생성자_속도가0이하면_예외()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new PlayerMovement(0f));
-        }
-
-        [Test]
-        public void 생성자_속도가_음수이면_예외()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new PlayerMovement(-3f));
-        }
-
         private static Vector2 CalculateVelocity(float speed, Vector2 input)
-        {
-            var movement = new PlayerMovement(speed);
-            return movement.CalculateVelocity(input);
+        {            
+            return PlayerMovement.CalculateVelocity(input, speed);
         }
     }
 

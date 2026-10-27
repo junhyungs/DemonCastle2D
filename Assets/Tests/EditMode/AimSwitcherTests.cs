@@ -1,7 +1,6 @@
 using DemonCastle.Player;
 using NUnit.Framework;
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DemonCastle.Tests

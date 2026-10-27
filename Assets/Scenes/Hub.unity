@@ -560,8 +560,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: DemonCastle::DemonCastle.Player.PlayerController
   _moveSpeed: 5
+  _rollSpeed: 12
+  _rollDuration: 0.25
+  _rollCooldown: 2
   _aimIndicatorDistance: 0.8
   _aimIndicator: {fileID: 1480302769}
+  _currentStateForDebug: 0
 --- !u!50 &1099630908
 Rigidbody2D:
   serializedVersion: 5
