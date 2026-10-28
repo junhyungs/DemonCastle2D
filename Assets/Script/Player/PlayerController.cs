@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using DemonCastle.Controls;
+using DemonCastle.Combat;
 
 namespace DemonCastle.Player
 {
@@ -12,13 +13,22 @@ namespace DemonCastle.Player
         [SerializeField, Min(0.01f)] private float _rollDuration = 0.25f;
         [SerializeField, Min(0f)] private float _rollCooldown = 0.4f;
         [SerializeField] private float _aimIndicatorDistance = 0.8f;
+        [SerializeField, Min(2)] private int _maxHealth = 6;
         [SerializeField] private Transform _aimIndicator;
         [SerializeField] private PlayerStateId _currentStateForDebug;
+
+        //TODO 개발용 테스트 코드 이후 삭제필요.
+        [ContextMenu("디버그/피해 1")]
+        private void DebugTakeDamage() => Health?.TakeDamage(new DamageInfo(1));
+        [ContextMenu("디버그/회복 1")]
+        private void DebugHeal() => Health?.Heal(1);
 
         private Rigidbody2D _rigidbody;
         private PlayerStats _stats;
         private PlayerBrain _brain;
         private IAimInput _aim;
+
+        public Health Health { get; private set; }
 
         private void Awake()
         {
@@ -55,6 +65,7 @@ namespace DemonCastle.Player
             
             _aim = aim ?? throw new ArgumentNullException(nameof(aim));
             _stats = new PlayerStats(_moveSpeed, _rollSpeed, _rollDuration, _rollCooldown);
+            Health = new Health(_maxHealth);
             _brain = new PlayerBrain(input, _rigidbody, _aim, _stats);
             enabled = true;
         }
