@@ -1,20 +1,21 @@
 using UnityEngine;
+using System;
 
 namespace DemonCastle.Combat
 {
     public class Hurtbox : MonoBehaviour, IDamageable
     {
-        [SerializeField, Min(1)] private int _health;
-        private Health _hurtboxHealth;
+        private IDamageable _target;
 
-        private void Awake()
+        public void Initialize(IDamageable target)
         {
-            _hurtboxHealth = new Health(_health);
+            _target = target ?? throw new ArgumentNullException(nameof(target));
         }
-
+        
         public void TakeDamage(DamageInfo damage)
         {
-           _hurtboxHealth.TakeDamage(damage);
+            if(_target == null) throw new InvalidOperationException($"'{name}'의 Hurtbox가 초기화되지 않았습니다.");
+            _target.TakeDamage(damage);
         }
     }
 }

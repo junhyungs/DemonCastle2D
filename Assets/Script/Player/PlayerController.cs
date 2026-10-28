@@ -15,6 +15,7 @@ namespace DemonCastle.Player
         [SerializeField] private float _aimIndicatorDistance = 0.8f;
         [SerializeField, Min(2)] private int _maxHealth = 6;
         [SerializeField] private Transform _aimIndicator;
+        [SerializeField] private Hurtbox _hurtbox;
         [SerializeField] private PlayerStateId _currentStateForDebug;
 
         //TODO 개발용 테스트 코드 이후 삭제필요.
@@ -62,10 +63,12 @@ namespace DemonCastle.Player
         public void Initialize(GameControls.PlayerActions input, IAimInput aim)
         {
             if (_aimIndicator == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_aimIndicator)}");
-            
+            if (_hurtbox == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_hurtbox)}");
+
             _aim = aim ?? throw new ArgumentNullException(nameof(aim));
             _stats = new PlayerStats(_moveSpeed, _rollSpeed, _rollDuration, _rollCooldown);
             Health = new Health(_maxHealth);
+            _hurtbox.Initialize(Health);
             _brain = new PlayerBrain(input, _rigidbody, _aim, _stats);
             enabled = true;
         }
