@@ -25,16 +25,22 @@ namespace DemonCastle.Hub
             if(_healthView == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_healthView)}");
 
             _services = services;
-            Debug.Log($"[HubEntry] 서비스 받음. 현재 씬 : {_services.SceneLoader.CurrentScene}");
-            
-            _exitDoor.Initialize(_services.SceneLoader);
 
-            var playerInput = _services.Controls.Player;
+            var sceneLoader = _services.SceneLoader;
+            Debug.Log($"[HubEntry] 서비스 받음. 현재 씬 : {sceneLoader.CurrentScene}");
+            
+            _exitDoor.Initialize(sceneLoader);
+
+            var gameControls = _services.Controls;
+            var playerInput = gameControls.Player;
             var aim = new AimSwitcher(
                     new MouseAim(playerInput.AimPoint, _camera),
                     new KeyboardAim(playerInput.AimKey)
                 );
-            _player.Initialize(playerInput, aim);
+
+            var gameDataBase = _services.Database;
+            _player.Initialize(playerInput, aim, gameDataBase.Player);
+
             _healthViewModel = new HealthViewModel(_player.Health);
             _healthView.Bind(_healthViewModel);
         }

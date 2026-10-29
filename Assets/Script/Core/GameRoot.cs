@@ -3,11 +3,13 @@ using System;
 using System.IO;
 using DemonCastle.Save;
 using DemonCastle.Controls;
+using DemonCastle.Data;
 
 namespace DemonCastle.Core
 {
     public class GameRoot : MonoBehaviour
     {
+        [SerializeField] private GameDatabase _gameDatabase;
         private GameServices _services;
         private GameControls _controls;
 
@@ -20,7 +22,9 @@ namespace DemonCastle.Core
             _controls = new GameControls();
             _controls.Player.Enable();
 
-            _services = new GameServices(new SceneLoader(), new SaveService(savePath), _controls);
+            if(_gameDatabase == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_gameDatabase)}");
+            _gameDatabase.Validate();
+            _services = new GameServices(new SceneLoader(), new SaveService(savePath), _controls, _gameDatabase);
 
             try
             {

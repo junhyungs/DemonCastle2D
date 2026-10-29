@@ -17,9 +17,15 @@ namespace DemonCastle.Player
         private float _speed;
         private float _remainingTime;        
 
-        public PlayerRollState(StateMachine<PlayerStateId> machine, GameControls.PlayerActions input, Rigidbody2D body,
+        public PlayerRollState(
+            StateMachine<PlayerStateId> machine,
+            GameControls.PlayerActions input,
+            Rigidbody2D body,
             IAimInput aim,
-            PlayerStats stats, RollAbility rollAbility, Invincibility invincibility) : base(machine, input, body)
+            PlayerStats stats,
+            RollAbility rollAbility,
+            Invincibility invincibility
+            ) : base(machine, input, body)
         {
             _aim = aim?? throw new ArgumentNullException(nameof(aim));
             _stats = stats ?? throw new ArgumentNullException(nameof(stats));
@@ -38,18 +44,18 @@ namespace DemonCastle.Player
             _invincibility.Block();
         }
 
-        public override void Tick(float deltaTime)
+        // 구르기는 물리 이동이라 FixedTick에서 시간을 센다.
+        public override void Tick(float deltaTime) { }
+        
+        public override void FixedTick(float fixedDeltaTime)
         {
-            _remainingTime -= deltaTime;
+            Body.linearVelocity = _direction * _speed;
+
+            _remainingTime -= fixedDeltaTime;
             if (_remainingTime > 0f) return;
 
             var next = ReadMove() != Vector2.zero ? PlayerStateId.Move : PlayerStateId.Idle;
             Machine.ChangeState(next);
-        }
-
-        public override void FixedTick(float fixedDeltaTime)
-        {
-            Body.linearVelocity = _direction * _speed;
         }
 
         public override void Exit()

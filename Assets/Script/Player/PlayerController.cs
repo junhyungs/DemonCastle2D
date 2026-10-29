@@ -8,13 +8,7 @@ namespace DemonCastle.Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField, Min(0.01f)] private float _moveSpeed = 5f;
-        [SerializeField, Min(0.01f)] private float _rollSpeed = 12f;
-        [SerializeField, Min(0.01f)] private float _rollDuration = 0.25f;
-        [SerializeField, Min(0f)] private float _rollCooldown = 0.4f;
-        [SerializeField] private float _aimIndicatorDistance = 0.8f;
-        [SerializeField, Min(0f)] private float _hitInvincibleDuration = 1f;
-        [SerializeField, Min(2)] private int _maxHealth = 6;
+        [SerializeField] private float _aimIndicatorDistance = 0.8f;        
         [SerializeField] private Transform _aimIndicator;
         [SerializeField] private Hurtbox _hurtbox;
         [SerializeField] private PlayerStateId _currentStateForDebug;
@@ -28,6 +22,7 @@ namespace DemonCastle.Player
         private Rigidbody2D _rigidbody;
         private PlayerStats _stats;
         private PlayerBrain _brain;
+        private PlayerDefinition _definition;
         private IAimInput _aim;
 
         public Health Health { get; private set; }
@@ -52,27 +47,43 @@ namespace DemonCastle.Player
             _currentStateForDebug = _brain.CurrentState;
         }
 
-        private void OnValidate()
+        private void OnDestroy()
         {
-            if (_stats == null) return;
-            _stats.MoveSpeed = _moveSpeed;
-            _stats.RollSpeed = _rollSpeed;
-            _stats.RollDuration = _rollDuration;
-            _stats.RollCooldown = _rollCooldown;
+            if (_definition != null) _definition.Changed -= ApplyDefinition;
         }
 
-        public void Initialize(GameControls.PlayerActions input, IAimInput aim)
+        public void Initialize(GameControls.PlayerActions input, IAimInput aim, PlayerDefinition playerDefinition)
         {
             if (_aimIndicator == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_aimIndicator)}");
             if (_hurtbox == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_hurtbox)}");
+            if (playerDefinition == null) throw new ArgumentNullException(nameof(playerDefinition));
 
             _aim = aim ?? throw new ArgumentNullException(nameof(aim));
-            _stats = new PlayerStats(_moveSpeed, _rollSpeed, _rollDuration, _rollCooldown);
-            Health = new Health(_maxHealth);
-            var invincibility = new Invincibility(Health, _hitInvincibleDuration);
+            _definition = playerDefinition;
+
+            _stats = new PlayerStats(
+                playerDefinition.MoveSpeed,
+                playerDefinition.RollSpeed,
+                playerDefinition.RollDuration,
+                playerDefinition.RollCooldown
+            );
+
+            Health = new Health(playerDefinition.MaxHealth);
+
+            var invincibility = new Invincibility(Health, playerDefinition.HitInvincibleDuration);
             _hurtbox.Initialize(invincibility);
             _brain = new PlayerBrain(input, _rigidbody, _aim, _stats, invincibility);
+
+            _definition.Changed += ApplyDefinition;
             enabled = true;
+        }
+
+        private void ApplyDefinition()
+        {           
+            _stats.MoveSpeed = _definition.MoveSpeed;
+            _stats.RollSpeed = _definition.RollSpeed;
+            _stats.RollDuration = _definition.RollDuration;
+            _stats.RollCooldown = _definition.RollCooldown;
         }
     }
 
