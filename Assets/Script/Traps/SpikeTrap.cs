@@ -13,7 +13,7 @@ namespace DemonCastle.Traps
             GetComponent<Collider2D>().isTrigger = true;
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerStay2D(Collider2D other)
         {
             if (!other.TryGetComponent<IDamageable>(out var target)) return;
             target.TakeDamage(new DamageInfo(_damage));

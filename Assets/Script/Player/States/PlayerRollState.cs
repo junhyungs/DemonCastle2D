@@ -1,3 +1,4 @@
+using DemonCastle.Combat;
 using DemonCastle.Controls;
 using DemonCastle.Core;
 using System;
@@ -10,6 +11,7 @@ namespace DemonCastle.Player
         private readonly IAimInput _aim;        
         private readonly PlayerStats _stats;
         private readonly RollAbility _rollAbility;
+        private readonly Invincibility _invincibility;
 
         private Vector2 _direction;
         private float _speed;
@@ -17,11 +19,12 @@ namespace DemonCastle.Player
 
         public PlayerRollState(StateMachine<PlayerStateId> machine, GameControls.PlayerActions input, Rigidbody2D body,
             IAimInput aim,
-            PlayerStats stats, RollAbility rollAbility) : base(machine, input, body)
+            PlayerStats stats, RollAbility rollAbility, Invincibility invincibility) : base(machine, input, body)
         {
             _aim = aim?? throw new ArgumentNullException(nameof(aim));
             _stats = stats ?? throw new ArgumentNullException(nameof(stats));
             _rollAbility = rollAbility ?? throw new ArgumentNullException(nameof(rollAbility));
+            _invincibility = invincibility ?? throw new ArgumentNullException(nameof(invincibility));
         }
 
         public override void Enter()
@@ -31,6 +34,8 @@ namespace DemonCastle.Player
             _speed = _stats.RollSpeed;
             _remainingTime = _stats.RollDuration;
             Body.linearVelocity = _direction * _speed;
+
+            _invincibility.Block();
         }
 
         public override void Tick(float deltaTime)
@@ -51,6 +56,7 @@ namespace DemonCastle.Player
         {
             Body.linearVelocity = Vector2.zero;
             _rollAbility.StartCooldown();
+            _invincibility.Unblock();
         }
     }
 }

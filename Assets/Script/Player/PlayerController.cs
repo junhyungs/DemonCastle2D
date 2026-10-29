@@ -13,6 +13,7 @@ namespace DemonCastle.Player
         [SerializeField, Min(0.01f)] private float _rollDuration = 0.25f;
         [SerializeField, Min(0f)] private float _rollCooldown = 0.4f;
         [SerializeField] private float _aimIndicatorDistance = 0.8f;
+        [SerializeField, Min(0f)] private float _hitInvincibleDuration = 1f;
         [SerializeField, Min(2)] private int _maxHealth = 6;
         [SerializeField] private Transform _aimIndicator;
         [SerializeField] private Hurtbox _hurtbox;
@@ -68,8 +69,9 @@ namespace DemonCastle.Player
             _aim = aim ?? throw new ArgumentNullException(nameof(aim));
             _stats = new PlayerStats(_moveSpeed, _rollSpeed, _rollDuration, _rollCooldown);
             Health = new Health(_maxHealth);
-            _hurtbox.Initialize(Health);
-            _brain = new PlayerBrain(input, _rigidbody, _aim, _stats);
+            var invincibility = new Invincibility(Health, _hitInvincibleDuration);
+            _hurtbox.Initialize(invincibility);
+            _brain = new PlayerBrain(input, _rigidbody, _aim, _stats, invincibility);
             enabled = true;
         }
     }

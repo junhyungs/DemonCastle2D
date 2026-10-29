@@ -3,6 +3,7 @@ using DemonCastle.Core;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using DemonCastle.Combat;
 
 namespace DemonCastle.Player
 {
@@ -12,10 +13,12 @@ namespace DemonCastle.Player
         private readonly List<ITickable> _tickables = new List<ITickable>();
         public PlayerStateId CurrentState => _machine.CurrentId;
 
-        public PlayerBrain(GameControls.PlayerActions input, Rigidbody2D body, IAimInput aim, PlayerStats stats)
+        public PlayerBrain(GameControls.PlayerActions input, 
+            Rigidbody2D body, IAimInput aim, PlayerStats stats, Invincibility invincibility)
         {
             var rollAbility = new RollAbility(stats);
             _tickables.Add(rollAbility);
+            _tickables.Add(invincibility);
 
             _machine.RegisterAll(Create);
             _machine.ChangeState(PlayerStateId.Idle);
@@ -26,7 +29,7 @@ namespace DemonCastle.Player
                 {
                     PlayerStateId.Idle => new PlayerIdleState(_machine, input, body, rollAbility),
                     PlayerStateId.Move => new PlayerMoveState(_machine, input, body, stats, rollAbility),
-                    PlayerStateId.Roll => new PlayerRollState(_machine, input, body, aim, stats, rollAbility),
+                    PlayerStateId.Roll => new PlayerRollState(_machine, input, body, aim, stats, rollAbility, invincibility),
                     _ => throw new ArgumentOutOfRangeException(nameof(id), id, "이 상태를 만드는 코드가 없습니다.")
                 };
             }
