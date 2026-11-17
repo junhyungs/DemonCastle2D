@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348c09bf376cf18439e207ef0bc6fad1, type: 3}
   m_Name: PlayerDefinition
   m_EditorClassIdentifier: DemonCastle::DemonCastle.Player.PlayerDefinition
-  _moveSpeed: 5
+  _moveSpeed: 10
   _rollSpeed: 12
   _rollDuration: 0.25
   _rollCooldown: 0.4
   _maxHealth: 6
   _hitInvincibleDuration: 1
+  _startingWeapon: {fileID: 11400000, guid: 1f256875991b08d4e8e9ed59633ad8c1, type: 2}

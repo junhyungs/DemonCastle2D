@@ -5,24 +5,19 @@ using System;
 
 namespace DemonCastle.Player
 {
-    public abstract class PlayerState : IState
+    public abstract class PlayerState : StateBase<PlayerStateId>
     {
-        protected StateMachine<PlayerStateId> Machine { get; }
-        protected GameControls.PlayerActions Input { get; }
-        protected Rigidbody2D Body { get; }        
+        protected PlayerContext Context { get; }
+        protected GameControls.PlayerActions Input => Context.Input;
+        protected Rigidbody2D Body => Context.Body;
 
-        protected PlayerState(StateMachine<PlayerStateId> machine, GameControls.PlayerActions input, Rigidbody2D body)
+        protected PlayerState(
+            StateMachine<PlayerStateId> machine,
+            PlayerContext context
+            ) : base(machine)
         {
-            Machine = machine ?? throw new ArgumentNullException(nameof(machine));
-            Input = input;
-            Body = body != null ? body : throw new ArgumentNullException(nameof(body));            
+            Context = context ?? throw new ArgumentNullException(nameof(context));
         }        
-
-        public virtual void Enter() { }        
-        public virtual void FixedTick(float fixedDeltaTime) { }
-        public abstract void Tick(float deltaTime);
-        public virtual void Exit() { }
-
         protected Vector2 ReadMove() => Input.Move.ReadValue<Vector2>();        
     }
 }

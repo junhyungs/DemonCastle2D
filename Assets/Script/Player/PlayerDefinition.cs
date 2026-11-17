@@ -1,3 +1,4 @@
+using DemonCastle.Weapons;
 using System;
 using UnityEngine;
 
@@ -17,6 +18,11 @@ namespace DemonCastle.Player
         [Header("체력")]
         [SerializeField, Min(2)] private int _maxHealth = 6;
         [SerializeField, Min(0f)] private float _hitInvincibleDuration = 1f;
+
+        [Header("무기")]
+        [SerializeField] private WeaponDefinition _startingWeapon;
+
+        public WeaponDefinition StartingWeapon => _startingWeapon;
 
         public float MoveSpeed => _moveSpeed;
         public float RollSpeed => _rollSpeed;

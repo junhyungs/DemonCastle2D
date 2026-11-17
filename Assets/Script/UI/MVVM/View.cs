@@ -23,13 +23,15 @@ namespace DemonCastle.UI
             ViewModel = null;
         }
 
-        protected abstract void OnBind(TViewModel viewModel);
-        protected abstract void OnUnbind(TViewModel viewModel);
-
-        protected virtual void OnDestroy()
+        private void OnDestroy()
         {
             Unbind();
+            OnViewDestroyed();
         }
+
+        protected abstract void OnBind(TViewModel viewModel);
+        protected abstract void OnUnbind(TViewModel viewModel);
+        protected virtual void OnViewDestroyed() { }
     }
 }
 

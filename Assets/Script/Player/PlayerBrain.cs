@@ -1,9 +1,6 @@
-using DemonCastle.Controls;
 using DemonCastle.Core;
-using UnityEngine;
 using System;
 using System.Collections.Generic;
-using DemonCastle.Combat;
 
 namespace DemonCastle.Player
 {
@@ -13,12 +10,13 @@ namespace DemonCastle.Player
         private readonly List<ITickable> _tickables = new List<ITickable>();
         public PlayerStateId CurrentState => _machine.CurrentId;
 
-        public PlayerBrain(GameControls.PlayerActions input, 
-            Rigidbody2D body, IAimInput aim, PlayerStats stats, Invincibility invincibility)
+        public PlayerBrain(PlayerContext context)
         {
-            var rollAbility = new RollAbility(stats);
-            _tickables.Add(rollAbility);
-            _tickables.Add(invincibility);
+            if (context == null) throw new ArgumentNullException(nameof(context));
+            
+            _tickables.Add(context.Roll);
+            _tickables.Add(context.Invincibility);
+            _tickables.Add(context.Weapon);
 
             _machine.RegisterAll(Create);
             _machine.ChangeState(PlayerStateId.Idle);
@@ -27,9 +25,9 @@ namespace DemonCastle.Player
             {
                 return id switch
                 {
-                    PlayerStateId.Idle => new PlayerIdleState(_machine, input, body, rollAbility),
-                    PlayerStateId.Move => new PlayerMoveState(_machine, input, body, stats, rollAbility),
-                    PlayerStateId.Roll => new PlayerRollState(_machine, input, body, aim, stats, rollAbility, invincibility),
+                    PlayerStateId.Idle => new PlayerIdleState(_machine, context),
+                    PlayerStateId.Move => new PlayerMoveState(_machine, context),
+                    PlayerStateId.Roll => new PlayerRollState(_machine, context),
                     _ => throw new ArgumentOutOfRangeException(nameof(id), id, "이 상태를 만드는 코드가 없습니다.")
                 };
             }

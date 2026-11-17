@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using DemonCastle.Controls;
 using DemonCastle.Combat;
+using DemonCastle.Weapons;
 
 namespace DemonCastle.Player
 {
@@ -11,6 +12,9 @@ namespace DemonCastle.Player
         [SerializeField] private float _aimIndicatorDistance = 0.8f;        
         [SerializeField] private Transform _aimIndicator;
         [SerializeField] private Hurtbox _hurtbox;
+        [SerializeField] private Collider2D _bodyCollider;
+        [SerializeField] private WeaponView _weaponView;
+        [SerializeField] private LayerMask _attackTargetLayers;
         [SerializeField] private PlayerStateId _currentStateForDebug;
 
         //TODO 개발용 테스트 코드 이후 삭제필요.
@@ -26,6 +30,7 @@ namespace DemonCastle.Player
         private IAimInput _aim;
 
         public Health Health { get; private set; }
+        public Collider2D BodyCollider => _bodyCollider;
 
         private void Awake()
         {
@@ -56,7 +61,11 @@ namespace DemonCastle.Player
         {
             if (_aimIndicator == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_aimIndicator)}");
             if (_hurtbox == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_hurtbox)}");
+            if (_bodyCollider == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_bodyCollider)}");
+            if (_weaponView == null ) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_weaponView)}");
+            if (_attackTargetLayers.value == 0) throw new InvalidOperationException($"{nameof(_attackTargetLayers)}에 레이어가 하나도 없습니다.");
             if (playerDefinition == null) throw new ArgumentNullException(nameof(playerDefinition));
+            if (playerDefinition.StartingWeapon == null) throw new InvalidOperationException($"PlayerDefinition에 시작 무기가 없습니다.");
 
             _aim = aim ?? throw new ArgumentNullException(nameof(aim));
             _definition = playerDefinition;
@@ -72,8 +81,13 @@ namespace DemonCastle.Player
 
             var invincibility = new Invincibility(Health, playerDefinition.HitInvincibleDuration);
             _hurtbox.Initialize(invincibility);
-            _brain = new PlayerBrain(input, _rigidbody, _aim, _stats, invincibility);
 
+            var rollAbility = new RollAbility(_stats);
+            var weapon = new MeleeWeapon(playerDefinition.StartingWeapon, transform, _attackTargetLayers);
+            var context = new PlayerContext(input, _rigidbody, _aim, _stats, rollAbility, weapon, invincibility);
+            _brain = new PlayerBrain(context);
+
+            _weaponView.Initialize(weapon, _aim, playerDefinition.StartingWeapon);
             _definition.Changed += ApplyDefinition;
             enabled = true;
         }

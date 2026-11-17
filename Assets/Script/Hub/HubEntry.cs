@@ -3,6 +3,8 @@ using DemonCastle.Core;
 using System;
 using DemonCastle.Player;
 using DemonCastle.UI;
+using DemonCastle.Enemy;
+using DemonCastle.Navigation;
 
 namespace DemonCastle.Hub
 {
@@ -12,6 +14,11 @@ namespace DemonCastle.Hub
         [SerializeField] private PlayerController _player;
         [SerializeField] private Camera _camera;
         [SerializeField] private HealthView _healthView;
+
+        // TODO(10교시): 스포너가 생기면 삭제. 허브에는 원래 적이 없다.
+        [Header("임시 적 테스트")]
+        [SerializeField] private EnemyController[] _sandboxEnemies;
+        [SerializeField] private EnemyDefinition _sandboxEnemyDefinition;
 
         private HealthViewModel _healthViewModel;
         private GameServices _services;
@@ -43,6 +50,13 @@ namespace DemonCastle.Hub
 
             _healthViewModel = new HealthViewModel(_player.Health);
             _healthView.Bind(_healthViewModel);
+
+            var navigator = new DirectNavigator();
+            foreach(var enemy in _sandboxEnemies)
+            {
+                if (enemy == null) throw new InvalidOperationException($"{nameof(_sandboxEnemies)}에 빈 칸이 있습니다.");
+                enemy.Initialize(_sandboxEnemyDefinition, _player.BodyCollider, navigator);
+            }
         }
 
         private void OnDestroy()

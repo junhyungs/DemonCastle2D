@@ -3,7 +3,7 @@ using System;
 namespace DemonCastle.Combat
 {
     public delegate void HealthChangedHandler(int current, int max);
-    public class Health : IDamageable, IHealable
+    public sealed class Health : IDamageable, IHealable
     {
         public int Max { get; }
         public int Current { get; private set; }

@@ -3,7 +3,7 @@ using System;
 
 namespace DemonCastle.Combat
 {
-    public class Invincibility : IDamageable, ITickable
+    public sealed class Invincibility : IDamageable, ITickable
     {
         private readonly IDamageable _inner;
         private readonly float _durationAfterHit;
