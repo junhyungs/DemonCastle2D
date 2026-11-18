@@ -11,6 +11,7 @@ namespace DemonCastle.Player
         public GameControls.PlayerActions Input { get; } 
         public Rigidbody2D Body { get; }
         public IAimInput Aim { get; }
+        public Facing Facing { get; }
         public PlayerStats Stats { get; }
         public RollAbility Roll { get; }
         public IWeapon Weapon { get; }
@@ -20,6 +21,7 @@ namespace DemonCastle.Player
             GameControls.PlayerActions input,
             Rigidbody2D body,
             IAimInput aim,
+            Facing facing,
             PlayerStats stats,
             RollAbility roll,
             IWeapon weapon,
@@ -29,6 +31,7 @@ namespace DemonCastle.Player
             Input = input;
             Body = body != null ? body : throw new ArgumentNullException(nameof(body));
             Aim = aim ?? throw new ArgumentNullException(nameof(aim));
+            Facing = facing ?? throw new ArgumentNullException(nameof(facing));
             Stats = stats ?? throw new ArgumentNullException(nameof(stats));
             Roll = roll ?? throw new ArgumentNullException(nameof(roll));
             Weapon = weapon ?? throw new ArgumentNullException(nameof(weapon));

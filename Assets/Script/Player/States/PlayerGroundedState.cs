@@ -19,7 +19,7 @@ namespace DemonCastle.Player
         protected void TryAttack()
         {
             if (!WasAttackPressed()) return;
-            Context.Weapon.TryAttack(Context.Aim.Direction);
+            Context.Weapon.TryAttack(Context.Facing.Forward);
         }
 
         private bool WasAttackPressed() => Input.Attack.WasPressedThisFrame() 

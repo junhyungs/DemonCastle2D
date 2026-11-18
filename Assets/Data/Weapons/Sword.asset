@@ -15,5 +15,4 @@ MonoBehaviour:
   _damage: 1
   _cooldown: 0.35
   _range: 1.2
-  _arcDegrees: 120
-  _swingDuration: 0.15
+  _arcDegrees: 200
