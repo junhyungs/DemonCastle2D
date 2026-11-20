@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: DemonCastle::DemonCastle.Weapons.WeaponDefinition
   _damage: 1
-  _cooldown: 0.35
+  _cooldown: 0.1
   _range: 1.2
   _arcDegrees: 200
+  _animations: {fileID: 9100000, guid: 2ab18f9dfc7f23b4fbc81021d7c6449d, type: 2}
+  _swingTimeout: 1

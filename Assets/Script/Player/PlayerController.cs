@@ -12,6 +12,7 @@ namespace DemonCastle.Player
         [SerializeField] private float _aimIndicatorDistance = 0.8f;        
         [SerializeField] private Transform _aimIndicator;
         [SerializeField] private FacingView _facingView;
+        [SerializeField] private AnimatorWeaponMotion _weaponMotion;
         [SerializeField] private Hurtbox _hurtbox;
         [SerializeField] private Collider2D _bodyCollider;        
         [SerializeField] private LayerMask _attackTargetLayers;
@@ -65,6 +66,7 @@ namespace DemonCastle.Player
             if (_hurtbox == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_hurtbox)}");
             if (_bodyCollider == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_bodyCollider)}");
             if (_facingView == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_facingView)}");
+            if (_weaponMotion == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_weaponMotion)}");
             if (_attackTargetLayers.value == 0) throw new InvalidOperationException($"{nameof(_attackTargetLayers)}에 레이어가 하나도 없습니다.");
             if (playerDefinition == null) throw new ArgumentNullException(nameof(playerDefinition));
             if (playerDefinition.StartingWeapon == null) throw new InvalidOperationException($"PlayerDefinition에 시작 무기가 없습니다.");
@@ -86,7 +88,9 @@ namespace DemonCastle.Player
 
             _facing = new Facing();
             var rollAbility = new RollAbility(_stats);
-            var weapon = new MeleeWeapon(playerDefinition.StartingWeapon, transform, _attackTargetLayers);
+            var startingWeapon = playerDefinition.StartingWeapon;
+            _weaponMotion.Initialize(startingWeapon.Animations);
+            var weapon = new MeleeWeapon(startingWeapon, transform, _weaponMotion, _attackTargetLayers);
             var context = new PlayerContext(input, _rigidbody, _aim, _facing, _stats, rollAbility, weapon, invincibility);
             _brain = new PlayerBrain(context);
 
