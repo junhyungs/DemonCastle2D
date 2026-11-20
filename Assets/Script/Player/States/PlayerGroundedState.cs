@@ -1,4 +1,5 @@
 using DemonCastle.Core;
+using UnityEngine;
 
 namespace DemonCastle.Player
 {
@@ -16,14 +17,19 @@ namespace DemonCastle.Player
             return true;
         }
 
-        protected void TryAttack()
+        protected bool TryStartAttack()
         {
-            if (!WasAttackPressed()) return;
-            Context.Weapon.TryAttack(Context.Facing.Forward);
-        }
+            if (!WasAttackPressed()) return false;
+            if(!Context.Weapon.TryAttack(AttackDirection())) return false;
 
-        private bool WasAttackPressed() => Input.Attack.WasPressedThisFrame() 
-            || Input.AimKey.WasPressedThisFrame();        
+            Machine.ChangeState(PlayerStateId.Attack);
+            return true;
+        }        
+
+        protected bool WasAttackPressed() => Input.Attack.WasPressedThisFrame() 
+            || Input.AimKey.WasPressedThisFrame();
+
+        protected Vector2 AttackDirection() => Context.Facing.ForwardFor(Context.Aim.Direction);
     }
 }
 

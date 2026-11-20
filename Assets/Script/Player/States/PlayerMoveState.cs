@@ -20,8 +20,7 @@ namespace DemonCastle.Player
         public override void Tick(float deltaTime)
         {            
             if (TryStartRoll()) return;
-
-            TryAttack();
+            if (TryStartAttack()) return;
 
             if (ReadMove() == Vector2.zero) Machine.ChangeState(PlayerStateId.Idle);
         }

@@ -28,6 +28,7 @@ namespace DemonCastle.Player
                     PlayerStateId.Idle => new PlayerIdleState(_machine, context),
                     PlayerStateId.Move => new PlayerMoveState(_machine, context),
                     PlayerStateId.Roll => new PlayerRollState(_machine, context),
+                    PlayerStateId.Attack => new PlayerAttackState(_machine, context),
                     _ => throw new ArgumentOutOfRangeException(nameof(id), id, "이 상태를 만드는 코드가 없습니다.")
                 };
             }

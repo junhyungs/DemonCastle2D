@@ -35,8 +35,7 @@ namespace DemonCastle.Player
             _remainingTime -= fixedDeltaTime;
             if (_remainingTime > 0f) return;
 
-            var next = ReadMove() != Vector2.zero ? PlayerStateId.Move : PlayerStateId.Idle;
-            Machine.ChangeState(next);
+            ReturnToGround();
         }
 
         public override void Exit()

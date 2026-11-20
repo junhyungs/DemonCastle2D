@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sword_Swing
+  m_Name: Sword_Swing1
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -372,6 +372,13 @@ AnimationClip:
   m_Events:
   - time: 0.15
     functionName: OnHit
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.2
+    functionName: OnComboWindow
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

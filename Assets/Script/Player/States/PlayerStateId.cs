@@ -4,6 +4,7 @@ namespace DemonCastle.Player
     {
         Idle,
         Move,
-        Roll
+        Roll,
+        Attack
     }
 }

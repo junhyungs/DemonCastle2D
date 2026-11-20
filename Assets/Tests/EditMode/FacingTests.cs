@@ -50,5 +50,40 @@ namespace DemonCastle.Tests
 
             Assert.AreEqual(1, facing.Sign);
         }
+
+        [Test]
+        public void 잠그면_조준을_따라가지_않는다()
+        {
+            var facing = new Facing();
+            facing.Lock(Vector2.right);
+
+            facing.Follow(Vector2.left);
+
+            Assert.AreEqual(1, facing.Sign);
+        }
+
+        [Test]
+        public void 잠글_때_방향을_바꾸고_알린다()
+        {
+            var facing = new Facing();
+            var changedCount = 0;
+            facing.Changed += _ => changedCount++;
+
+            facing.Lock(Vector2.left);
+
+            Assert.AreEqual(-1, facing.Sign);
+            Assert.AreEqual(1, changedCount);
+        }
+
+        [Test]
+        public void ForwardFor는_계산만_하고_방향을_바꾸지_않는다()
+        {
+            var facing = new Facing();
+
+            var forward = facing.ForwardFor(Vector2.left);
+
+            Assert.AreEqual(Vector2.left, forward);
+            Assert.AreEqual(1, facing.Sign);
+        }
     }
 }

@@ -12,9 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05683f7c113b3854d8a9a9f10dbeca47, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: DemonCastle::DemonCastle.Weapons.WeaponDefinition
-  _damage: 1
+  _steps:
+  - _damage: 1
+    _range: 1.2
+    _arcDegrees: 200
+    _moveMultiplier: 0.5
+  - _damage: 1
+    _range: 1.2
+    _arcDegrees: 200
+    _moveMultiplier: 0.5
+  - _damage: 2
+    _range: 1.5
+    _arcDegrees: 270
+    _moveMultiplier: 0.2
   _cooldown: 0.1
-  _range: 1.2
-  _arcDegrees: 200
   _animations: {fileID: 9100000, guid: 2ab18f9dfc7f23b4fbc81021d7c6449d, type: 2}
   _swingTimeout: 1
