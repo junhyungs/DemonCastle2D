@@ -10,6 +10,7 @@ namespace DemonCastle.Combat
         public bool IsDead => Current <= 0;
 
         public event HealthChangedHandler Changed;
+        public event Action<DamageInfo> Damaged;
         public event Action Died;
 
         public Health(int max)
@@ -26,6 +27,7 @@ namespace DemonCastle.Combat
 
             Current = Math.Max(0, Current - damage.Amount);
             Changed?.Invoke(Current, Max);
+            Damaged?.Invoke(damage);
 
             if (IsDead) Died?.Invoke();
         }

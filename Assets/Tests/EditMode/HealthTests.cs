@@ -1,6 +1,7 @@
 using DemonCastle.Combat;
 using NUnit.Framework;
 using System;
+using UnityEngine;
 
 namespace DemonCastle.Tests
 {
@@ -131,6 +132,33 @@ namespace DemonCastle.Tests
 
             Assert.AreEqual(1, changedCount);
             Assert.AreEqual(0, health.Current);
+        }
+
+        [Test]
+        public void 데미지를_받으면_받은_정보와_함께_알린다()
+        {
+            var health = new Health(3);
+            DamageInfo? received = null;
+            health.Damaged += info => received = info;
+
+            health.TakeDamage(new DamageInfo(1, Vector2.right, 4f));
+
+            Assert.IsTrue(received.HasValue);
+            Assert.AreEqual(1, received.Value.Amount);
+            Assert.AreEqual(4f, received.Value.Knockback);
+        }
+
+        [Test]
+        public void 죽은_뒤에는_데미지를_알리지_않는다()
+        {
+            var health = new Health(1);
+            health.TakeDamage(new DamageInfo(1));
+            var count = 0;
+            health.Damaged += _ => count++;
+
+            health.TakeDamage(new DamageInfo(1));
+
+            Assert.AreEqual(0, count);
         }
     }
 }

@@ -14,7 +14,8 @@ namespace DemonCastle.Player
         [SerializeField] private FacingView _facingView;
         [SerializeField] private AnimatorWeaponMotion _weaponMotion;
         [SerializeField] private Hurtbox _hurtbox;
-        [SerializeField] private Collider2D _bodyCollider;        
+        [SerializeField] private Collider2D _bodyCollider;
+        [SerializeField] private HitFlash _hitFlash;
         [SerializeField] private LayerMask _attackTargetLayers;
         [SerializeField] private PlayerStateId _currentStateForDebug;
 
@@ -70,6 +71,7 @@ namespace DemonCastle.Player
             if (_attackTargetLayers.value == 0) throw new InvalidOperationException($"{nameof(_attackTargetLayers)}에 레이어가 하나도 없습니다.");
             if (playerDefinition == null) throw new ArgumentNullException(nameof(playerDefinition));
             if (playerDefinition.StartingWeapon == null) throw new InvalidOperationException($"PlayerDefinition에 시작 무기가 없습니다.");
+            if (_hitFlash == null) throw new InvalidOperationException($"SerializeField 누락 : {nameof(_hitFlash)}");
 
             _aim = aim ?? throw new ArgumentNullException(nameof(aim));
             _definition = playerDefinition;
@@ -82,6 +84,7 @@ namespace DemonCastle.Player
             );
 
             Health = new Health(playerDefinition.MaxHealth);
+            _hitFlash.Initialize(Health);
 
             var invincibility = new Invincibility(Health, playerDefinition.HitInvincibleDuration);
             _hurtbox.Initialize(invincibility);

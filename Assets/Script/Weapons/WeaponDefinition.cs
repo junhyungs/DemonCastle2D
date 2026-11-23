@@ -10,9 +10,9 @@ namespace DemonCastle.Weapons
         [Tooltip("콤보 순서대로 1타, 2타 ... Animator의 상태 Swing1, Swing2 ... 와 짝을 이룬다")]
         [SerializeField] private AttackStep[] _steps =
         {
-            new AttackStep(1, 1.2f, 200f, 0.5f),
-            new AttackStep(1, 1.2f, 200f, 0.5f),
-            new AttackStep(2, 1.5f, 270f, 0.2f)
+            new AttackStep(1, 1.2f, 200f, 0.5f, 4f),
+            new AttackStep(1, 1.2f, 200f, 0.5f, 4f),
+            new AttackStep(2, 1.5f, 270f, 0.2f, 8f)
         };
         [Tooltip("콤보가 끝난 뒤, 다음 콤보까지 대기 시간")]
         [SerializeField, Min(0f)] private float _cooldown = 0.1f;

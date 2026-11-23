@@ -147,8 +147,14 @@ namespace DemonCastle.Weapons
                 if (!hit.TryGetComponent<IDamageable>(out var target)) continue;
                 if (!_damaged.Add(target)) continue;
 
-                target.TakeDamage(new DamageInfo(step.Damage));
+                target.TakeDamage(new DamageInfo(step.Damage, PushDirection(origin, hit), step.Knockback));
             }
+        }
+
+        private Vector2 PushDirection(Vector2 origin, Collider2D hit)
+        {
+            var away = (Vector2)hit.bounds.center - origin;
+            return away.sqrMagnitude > 0.0001f ? away : _attackDirection;
         }
     }
 }

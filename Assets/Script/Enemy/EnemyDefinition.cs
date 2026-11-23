@@ -21,8 +21,10 @@ namespace DemonCastle.Enemy
 
         [Header("전투")]
         [SerializeField, Min(1)] private int _maxHealth = 3;
-        [SerializeField, Min(0f)] private float _hitInvincibleDuration = 0.3f;
+        [SerializeField, Min(0f)] private float _hitInvincibleDuration = 0f;
         [SerializeField, Min(1)] private int _contactDamage = 1;
+        [Tooltip("맞은 뒤 밀려나며 행동하지 못하는 시간(초). 이 시간 동안 넉백 속도가 0까지 줄어든다.")]
+        [SerializeField, Min(0.05f)] private float _hurtDuration = 0.25f;
 
         [Header("무리")]
         [SerializeField, Min(0.0f)] private float _separationRadius = 1.5f;
@@ -36,6 +38,7 @@ namespace DemonCastle.Enemy
         public float IdleTimeMin => _idleTimeMin;
         public float IdleTimeMax => _idleTimeMax;
         public int MaxHealth => _maxHealth;
+        public float HurtDuration => _hurtDuration;
         public float HitInvincibleDuration => _hitInvincibleDuration;
         public int ContactDamage => _contactDamage;
         public float StopDistance => _stopDistance;

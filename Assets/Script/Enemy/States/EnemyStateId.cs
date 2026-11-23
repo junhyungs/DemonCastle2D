@@ -4,7 +4,8 @@ namespace DemonCastle.Enemy
     {
         Idle,
         Wander,
-        Chase
+        Chase,
+        Hurt
     }
 }
 

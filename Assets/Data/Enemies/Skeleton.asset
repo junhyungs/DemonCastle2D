@@ -21,7 +21,8 @@ MonoBehaviour:
   _idleTimeMin: 1
   _idleTimeMax: 3
   _maxHealth: 3
-  _hitInvincibleDuration: 0.3
+  _hitInvincibleDuration: 0
   _contactDamage: 1
+  _hurtDuration: 0.25
   _separationRadius: 1.5
   _separationWeight: 3

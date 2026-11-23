@@ -91,6 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2257203517329963738}
   - component: {fileID: 7840840190880960561}
+  - component: {fileID: 5253732293865496193}
   - component: {fileID: 4692647144470893890}
   - component: {fileID: 8947100199081835225}
   - component: {fileID: 7516562180616742528}
@@ -165,7 +166,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -3801395117379775012, guid: a1aedce062c6c694a8fbed40f1393ca2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -177,6 +178,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &5253732293865496193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6827420919966272874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a9dc245cd65324fac957bbd3af949f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DemonCastle::DemonCastle.Combat.HitFlash
+  _flashColor: {r: 1, g: 0.35, b: 0.35, a: 1}
+  _duration: 0.1
 --- !u!114 &4692647144470893890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +219,7 @@ MonoBehaviour:
   _hurtbox: {fileID: 4692647144470893890}
   _contactHitbox: {fileID: 4481444892506519402}
   _bodyCollider: {fileID: 7516562180616742528}
+  _hitFlash: {fileID: 5253732293865496193}
   _neighborLayers:
     serializedVersion: 2
     m_Bits: 128

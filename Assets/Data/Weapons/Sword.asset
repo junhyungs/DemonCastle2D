@@ -17,14 +17,17 @@ MonoBehaviour:
     _range: 1.2
     _arcDegrees: 200
     _moveMultiplier: 0.5
+    _knockback: 4
   - _damage: 1
     _range: 1.2
     _arcDegrees: 200
     _moveMultiplier: 0.5
+    _knockback: 4
   - _damage: 2
     _range: 1.5
     _arcDegrees: 270
     _moveMultiplier: 0.2
+    _knockback: 8
   _cooldown: 0.1
   _animations: {fileID: 9100000, guid: 2ab18f9dfc7f23b4fbc81021d7c6449d, type: 2}
   _swingTimeout: 1

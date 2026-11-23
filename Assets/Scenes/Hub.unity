@@ -1329,6 +1329,7 @@ MonoBehaviour:
   _weaponMotion: {fileID: 501729162}
   _hurtbox: {fileID: 1099630910}
   _bodyCollider: {fileID: 1099630909}
+  _hitFlash: {fileID: 2072228453}
   _attackTargetLayers:
     serializedVersion: 2
     m_Bits: 128
@@ -1862,6 +1863,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2072228451}
   - component: {fileID: 2072228452}
+  - component: {fileID: 2072228453}
   m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
@@ -1943,6 +1945,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2072228453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2072228450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a9dc245cd65324fac957bbd3af949f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DemonCastle::DemonCastle.Combat.HitFlash
+  _flashColor: {r: 1, g: 0.35, b: 0.35, a: 1}
+  _duration: 0.1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
